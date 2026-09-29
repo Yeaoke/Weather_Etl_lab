@@ -17,10 +17,7 @@ class Location:
 
 def get_location() -> Location:
 
-    url = os.getenv(
-        "GEO_API_URL",
-        "https://ipinfo.io/json",
-    )
+    url = os.getenv("GEO_API_URL", "https://ipinfo.io/json")
 
     fallback_city = os.getenv("GEO_API_FALLBACK_CITY")
     fallback_lat = os.getenv("GEO_API_FALLBACK_LAT")
@@ -60,10 +57,9 @@ def get_location() -> Location:
                 )
             except ValueError as fallback_exc:
                 raise GeoLocationError(
-                    "Некорректные координаты fallback."
+                    "Некорректные координаты fallback-параметров."
                 ) from fallback_exc
 
         raise GeoLocationError(
             f"Не удалось определить местоположение: {exc}. "
-            "Укажите fallback-город и координаты в .env."
         ) from exc

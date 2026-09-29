@@ -12,17 +12,12 @@ class WeatherAPIError(Exception):
 
 def get_forecast(latitude: float, longitude: float) -> list[dict]:
 
-    base_url = os.getenv(
-        "WEATHER_API_BASE_URL",
-        "https://api.openweathermap.org/data/2.5",
-    ).rstrip("/")
+    base_url = os.getenv("WEATHER_API_BASE_URL", "https://api.openweathermap.org/data/2.5").rstrip("/")
 
     api_key = os.getenv("WEATHER_API_KEY")
 
     if not api_key:
-        raise WeatherAPIError(
-            "Не задан WEATHER_API_KEY. Проверь файл .env."
-        )
+        raise WeatherAPIError("Не задан WEATHER_API_KEY. Проверь файл .env.")
 
     url = f"{base_url}/forecast"
 
@@ -35,11 +30,7 @@ def get_forecast(latitude: float, longitude: float) -> list[dict]:
     }
 
     try:
-        response = requests.get(
-            url,
-            params=params,
-            timeout=15,
-        )
+        response = requests.get(url, params=params, timeout=15)
 
     except requests.RequestException as exc:
         raise WeatherAPIError(
@@ -60,11 +51,6 @@ def get_forecast(latitude: float, longitude: float) -> list[dict]:
     if response.status_code == 404:
         raise WeatherAPIError(
             "Город или координаты не найдены (HTTP 404)."
-        )
-
-    if response.status_code == 429:
-        raise WeatherAPIError(
-            "Превышен лимит запросов OpenWeatherMap (HTTP 429)."
         )
 
     try:
@@ -96,10 +82,7 @@ def get_forecast(latitude: float, longitude: float) -> list[dict]:
     )
 
 
-def aggregate_forecast(
-    points: list[dict],
-    timezone_offset: int = 0,
-) -> list[dict]:
+def aggregate_forecast(points: list[dict], timezone_offset: int = 0) -> list[dict]:
 
     if not points:
         return []
@@ -107,36 +90,23 @@ def aggregate_forecast(
     groups: dict[date, list[dict]] = {}
 
     for point in points:
-        local_datetime = (
-            datetime.fromtimestamp(
-                point["dt"],
-                tz=timezone.utc,
-            )
-            + timedelta(seconds=timezone_offset)
-        )
+        local_datetime = (datetime.fromtimestamp(point["dt"], tz=timezone.utc) + timedelta(seconds=timezone_offset))
 
-        groups.setdefault(
-            local_datetime.date(),
-            [],
-        ).append(point)
+        groups.setdefault(local_datetime.date(), []).append(point)
 
     result = []
 
     for forecast_date, items in sorted(groups.items())[:4]:
 
         descriptions = [
-            item.get("weather", [{}])[0].get(
-                "description",
-                "Нет данных",
-            )
+            item.get("weather", [{}])[0].get("description", "Нет данных")
             for item in items
         ]
 
-        noon_item = min(
-            items,
-            key=lambda item: abs(
+        noon_item = min(items, key=lambda item: abs(
                 (
-                    datetime.fromtimestamp(
+                    datetime.fromtimestamp
+                    (
                         item["dt"],
                         tz=timezone.utc,
                     )

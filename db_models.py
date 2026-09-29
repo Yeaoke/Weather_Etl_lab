@@ -95,11 +95,7 @@ def init_db(engine) -> None:
     Base.metadata.create_all(engine)
 
 
-def save_forecast(
-    engine,
-    city: str,
-    forecast: list[dict],
-) -> int:
+def save_forecast(engine, city: str, forecast: list[dict]) -> int:
 
     saved = 0
 
@@ -135,16 +131,9 @@ def save_forecast(
     return saved
 
 
-def get_city_forecast(
-    engine,
-    city: str,
-) -> list[WeatherForecast]:
+def get_city_forecast(engine, city: str) -> list[WeatherForecast]:
 
     with Session(engine) as session:
         return list(
-            session.scalars(
-                select(WeatherForecast)
-                .where(WeatherForecast.city == city)
-                .order_by(WeatherForecast.forecast_date)
-            )
+            session.scalars(select(WeatherForecast).where(WeatherForecast.city == city).order_by(WeatherForecast.forecast_date))
         )

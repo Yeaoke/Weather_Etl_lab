@@ -61,9 +61,7 @@ def main() -> None:
             )
 
         print(
-            "Даты прогноза: "
-            + ", ".join(
-                str(item["forecast_date"])
+            "Даты прогноза: " + ", ".join(str(item["forecast_date"])
                 for item in forecast
             )
         )
@@ -91,7 +89,7 @@ def main() -> None:
 
         print(f"Новых записей сохранено: {saved}")
         print(f"Всего записей города в БД: {len(records)}")
-        print(f"Markdown-файл: {path.resolve()}")
+        print(f"MD-файл: {path.resolve()}")
 
     except (
         GeoLocationError,
