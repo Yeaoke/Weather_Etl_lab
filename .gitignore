@@ -1,0 +1,20 @@
+# Environment
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Database
+*.db
+
+# Generated reports
+weather_report.md
+weather_*.md
+
+# IDE
+.idea/
+.vscode/
