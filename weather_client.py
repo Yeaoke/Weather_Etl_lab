@@ -10,7 +10,10 @@ class WeatherAPIError(Exception):
     """Ошибка при работе с OpenWeatherMap API."""
 
 
-def get_forecast(latitude: float, longitude: float) -> list[dict]:
+def get_forecast(city: str, latitude: float, longitude: float) -> list[dict]:
+
+    if not (city or (latitude is not None and longitude is not None)):
+        raise WeatherAPIError("Необходимо указать city либо latitude/longitude.")
 
     base_url = os.getenv("WEATHER_API_BASE_URL", "https://api.openweathermap.org/data/2.5").rstrip("/")
 
@@ -21,13 +24,21 @@ def get_forecast(latitude: float, longitude: float) -> list[dict]:
 
     url = f"{base_url}/forecast"
 
-    params = {
-        "lat": latitude,
-        "lon": longitude,
+    print("city", city, "lan", latitude, "lon", longitude)
+
+    params = {}
+
+    if latitude is not None and longitude is not None:
+        params["lat"] = latitude
+        params["lon"] = longitude
+    else:
+        params["q"] = city
+
+    params.update({
         "appid": api_key,
         "units": "metric",
         "lang": "ru",
-    }
+    })
 
     try:
         response = requests.get(url, params=params, timeout=15)

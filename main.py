@@ -51,6 +51,7 @@ def main() -> None:
         )
 
         forecast = get_forecast(
+            location.city,
             location.latitude,
             location.longitude,
         )
@@ -80,10 +81,7 @@ def main() -> None:
             location.city,
         )
 
-        output_file = os.getenv(
-            "OUTPUT_FILE",
-            "weather_report.md",
-        )
+        output_file = os.getenv("OUTPUT_FILE", "weather_report.md")
 
         path = export_markdown(records, output_file)
 
