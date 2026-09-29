@@ -6,7 +6,7 @@
 
 - Python 3.10+
 - `requests` — HTTP-запросы
-- `SQLAlchemy 2.x` — ORM и SQLite
+- `SQLAlchemy 2.x` — ORM и PostgreSQL
 - `python-dotenv` — конфигурация через `.env`
 - OpenWeatherMap Forecast API
 - IP Geolocation API (`ipinfo.io` по умолчанию)
@@ -69,7 +69,7 @@ WEATHER_API_BASE_URL=https://api.openweathermap.org/data/2.5
 GEO_API_URL=https://ipinfo.io/json
 GEO_API_FALLBACK_CITY=Moscow
 
-DB_URL=sqlite:///weather_lab.db
+DB_URL=postgresql://your_username:your_password@localhost:5432/weather_lab_db
 DB_USER=
 DB_PASSWORD=
 
