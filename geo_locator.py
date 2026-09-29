@@ -16,7 +16,6 @@ class Location:
 
 
 def get_location() -> Location:
-    """Получить местоположение по IP или использовать fallback."""
 
     url = os.getenv(
         "GEO_API_URL",

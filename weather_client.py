@@ -11,12 +11,6 @@ class WeatherAPIError(Exception):
 
 
 def get_forecast(latitude: float, longitude: float) -> list[dict]:
-    """
-    Получить прогноз погоды на сегодня и следующие 3 дня.
-
-    Данные OpenWeatherMap агрегируются из трёхчасовых прогнозов
-    в ежедневные показатели.
-    """
 
     base_url = os.getenv(
         "WEATHER_API_BASE_URL",
